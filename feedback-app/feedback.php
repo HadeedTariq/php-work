@@ -1,35 +1,24 @@
-<?php include 'inc/header.php' ?>
+<?php include 'inc/header.php'; ?>
+
 <?php
-$feedbacks = array(
-    array(
-        "id" => 1,
-        "name" => "John Doe",
-        "email" => "johndoe@example.com",
-        "body" => "This product is amazing! I love its features and ease of use.",
-    ),
-    array(
-        "id" => 2,
-        "name" => "Jane Smith",
-        "email" => "janesmith@example.com",
-        "body" => "The product is good, but it could be improved with a few additional features.",
-    ),
-    array(
-        "id" => 3,
-        "name" => "Mike Jones",
-        "email" => "mikejones@example.com",
-        "body" => "I'm not satisfied with the product. It's not user-friendly and has several bugs.",
-    ),
-);
+$sql = 'SELECT * FROM feedback';
+$result = mysqli_query($conn, $sql);
+$feedbacks = mysqli_fetch_all($result, MYSQLI_ASSOC);
 ?>
 
-<div class="feedback-card">
-    <div class="header">
-        <div class="user-info">
-            <h3>John Doe</h3>
-            <p>johndoe@example.com</p>
+<h2>Past Feedback</h2>
+<?php if (empty($feedbacks)) : ?>
+    <p class="lead mt3">There is no feedback</p>
+<?php endif; ?>
+
+<?php foreach ($feedbacks as $feedback) : ?>
+    <div class="card my-3 w-75">
+        <div class="card-body text-center">
+            <div class="text-secondary mt-2">
+                <?php echo $feedback['body'] . "<br>" . "By" . '<h4>' . $feedback['name'] . '</h4>' . '<strong>' . "On " . date('d-m-Y', strtotime($feedback['date'])) . '</strong>'; ?>
+            </div>
         </div>
     </div>
-    <div class="content">
-        <p>This product is amazing! I love its features and ease of use. Highly recommended!</p>
-    </div>
-</div>
+<?php endforeach; ?>
+
+<?php include 'inc/footer.php'; ?>

@@ -1,5 +1,4 @@
 <?php
-
 define('DB_HOST', 'localhost');
 define('DB_USER', 'Hadeed');
 define('DB_PASS', 'hadeed123');
